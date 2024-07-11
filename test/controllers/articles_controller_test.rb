@@ -6,13 +6,13 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     @article = articles(:one)
   end 
 
-  test "should not save article without category" do
-    article = Article.new
-    assert_not article.save, "Saved the Article without category"
-  end
-
   test "should get index" do
     get articles_url
+    assert_response :success
+  end
+
+  test "should get new" do
+    get new_article_url
     assert_response :success
   end
 
@@ -22,9 +22,19 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "should get new" do
-    get new_article_url
+  test "should not save article without category" do
+    article = Article.new
+    assert_not article.save, "Saved the Article without category"
+  end
+
+  test "should get edit" do
+    get edit_article_url(@article)
     assert_response :success
+  end
+
+  test "should update article" do
+    patch articles_url(@article), params: { article: { category: @article.category, title: @article.title, body: @article.body } }
+    assert_redirected_to article_url(@article)
   end
 
 end
