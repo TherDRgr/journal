@@ -37,4 +37,9 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to article_url(@article)
   end
 
+  test "should show article" do
+    get article_url(@article)
+    assert_response :success
+  end
+
 end
